@@ -51,16 +51,16 @@ io.on('connection', socket => {
             !helper.IsValidRgbColor(data.t.visible) || !helper.IsValidRgbColor(data.t.invisible)
         ) return console.log('[build] received invalid data: %s', util.inspect(data));
 
-        var buildname = data.name + '-' + moment().unix() + '-' + randomstring.generate();
+        var buildname = sha256(data.name + '-' + moment().unix() + '-' + randomstring.generate());
 
         ncp(__dirname + '/../cheat', __dirname + '/cache/' + buildname, err => {
-            if (err) return console.log('[build] %s: error while copying source', buildname);
-            console.log('[build] %s: copied source', buildname)
+            if (err) return console.log('[build] %s (%s): error while copying source', data.name, buildname);
+            console.log('[build] %s (%s): copied source', data.name, buildname)
 
-            console.log('[build] %s: replacing name and colors', buildname);
+            console.log('[build] %s (%s): replacing name and colors', data.name, buildname);
 
             fs.readFile(__dirname + '/cache/' + buildname + '/MetaInfo.h', (err, metainfo) => {
-                if (err) return console.log('[build] %s: failed to open MetaInfo.h', buildname);
+                if (err) return console.log('[build] %s (%s): failed to open MetaInfo.h', data.name, buildname);
 
                 var final = metainfo.toString()
                     .split('{NAME}').join(data.name)
@@ -70,20 +70,20 @@ io.on('connection', socket => {
                     .split('{TINVIS}').join(vsprintf('%d, %d, %d', data.t.invisible));
 
                 fs.writeFile(__dirname + '/cache/' + buildname + '/MetaInfo.h', final, 'utf8', err => {
-                    if (err) console.log('[build] %s: failed to save MetaInfo.h', buildname);
+                    if (err) console.log('[build] %s (%s): failed to save MetaInfo.h', data.name, buildname);
 
-                    console.log('[build] %s: starting build', buildname);
+                    console.log('[build] %s (%s): starting build', data.name, buildname);
                     var build = child.spawn('msbuild', [__dirname + '/cache/' + buildname + '/AYYWARE CSGO.vcxproj', '/p:Configuration=Release'])
                     build.on('close', code => {
-                        console.log('[build] %s: build finished', buildname);
+                        console.log('[build] %s (%s): build finished', data.name, buildname);
                         var dllname = sha256(buildname) + '.dll';
                         fs.move(
                             __dirname + '/cache/' + buildname + '/Release/ayyware.dll',
                             __dirname + '/bin/' + dllname,
                             err => {
-                                if (err) return console.log('[build] %s: renaming DLL failed.');
+                                if (err) return console.log('[build] %s (%s): renaming DLL failed.', data.name, buildname);
 
-                                console.log('[build] deleting source');
+                                console.log('[build] %s (%s): deleting source', data.name, buildname);
                                 fs.removeSync(__dirname + '/cache/' + buildname);
 
                                 socket.emit('build', {
