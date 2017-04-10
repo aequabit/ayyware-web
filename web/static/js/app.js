@@ -5,6 +5,9 @@ socket.on('build', data => {
     $('.btn-build').removeAttr('disabled');
     $('.btn-build').html('Build');
 });
+socket.on('buildcount', data => {
+    $('.lbl-buildcount').html(data.count + ' Builds');
+});
 
 $('.txt-cheat-name').change(function() {
     if ($(this).val().length < 1) {
@@ -17,6 +20,7 @@ $('.txt-cheat-name').change(function() {
 });
 
 $(document).ready(() => {
+    socket.emit('buildcount');
     $('.ct-visible, .ct-invisible, .t-visible, .t-invisible').ColorPickerSliders({
         size: 'sm',
         placement: 'right',

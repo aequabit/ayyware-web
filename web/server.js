@@ -51,6 +51,14 @@ io.on('connection', socket => {
             !helper.IsValidRgbColor(data.t.visible) || !helper.IsValidRgbColor(data.t.invisible)
         ) return console.log('[build] received invalid data: %s', util.inspect(data));
 
+	fs.readFile(__dirname + '/buildcount.txt', (err, data) => {
+	    if (err) return;
+            fs.writeFile(__dirname + '/buildcount.txt', parseInt(data.toString()) + 1, 'utf8', err => {
+	        if (err) return;
+	    });
+            io.emit('buildcount', { count: parseInt(data) + 1 });
+	});
+
         var buildname = sha256(data.name + '-' + moment().unix() + '-' + randomstring.generate());
 
         ncp(__dirname + '/../cheat', __dirname + '/cache/' + buildname, err => {
@@ -84,7 +92,10 @@ io.on('connection', socket => {
                                 if (err) return console.log('[build] %s (%s): renaming DLL failed.', data.name, buildname);
 
                                 console.log('[build] %s (%s): deleting source', data.name, buildname);
-                                fs.removeSync(__dirname + '/cache/' + buildname);
+
+				try {
+                                    fs.removeSync(__dirname + '/cache/' + buildname);
+				} catch (e) {}
 
                                 socket.emit('build', {
                                     url: '/bin/' + dllname
@@ -97,7 +108,11 @@ io.on('connection', socket => {
                 });
             })
         });
-
-        //child.spawn('msbuild', [])
+    });
+    socket.on('buildcount', () => {
+        fs.readFile(__dirname + '/buildcount.txt', (err, data) => {
+            if (err) return;
+            socket.emit('buildcount', { count: data.toString() });
+        });
     });
 });
