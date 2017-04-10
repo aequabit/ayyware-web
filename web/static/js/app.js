@@ -8,6 +8,15 @@ socket.on('build', data => {
 socket.on('buildcount', data => {
     $('.lbl-buildcount').html(data.count + ' Builds');
 });
+socket.on('errormsg', data => {
+    $('.box-error').removeClass('hidden');
+    $('.box-error').html(data.message);
+    $('.btn-build').html('Build');
+    setTimeout(() => {
+        $('.box-error').addClass('hidden');
+        $('.btn-build').removeAttr('disabled');
+    }, 10000);
+});
 
 $('.txt-cheat-name').change(function() {
     if ($(this).val().length < 1) {
@@ -30,7 +39,7 @@ $(document).ready(() => {
     });
 
     $('.btn-build').click(() => {
-        if ($('.txt-cheat-name').val().length < 1 || $('.txt-cheat-name').val().length > 32 || $('.txt-cheat-name').val().match(/^[\w\s-_]+$/i) === null) {
+        if ($('.txt-cheat-name').val().trim().length < 1 || $('.txt-cheat-name').val().trim()..length > 32 || $('.txt-cheat-name').val().trim().match(/^[\w\s-_]+$/i) === null) {
             $('.name-error').removeClass('hidden');
             $('.name-box').addClass('has-error');
             return;
