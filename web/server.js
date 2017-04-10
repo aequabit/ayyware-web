@@ -34,6 +34,8 @@ var server = app.listen(config.http.port, () => {
     console.log('[http] listening on %d', config.http.port);
 });
 
+var current = 0;
+
 /**
  * Socket.io setup.
  */
@@ -51,6 +53,8 @@ io.on('connection', socket => {
             !helper.IsValidRgbColor(data.t.visible) || !helper.IsValidRgbColor(data.t.invisible)
         ) return console.log('[build] received invalid data: %s', util.inspect(data));
 
+	if (current >= 5) return socket.emit('errormsg', { message: 'The build queue is currently full. Please try again later. ' });
+
 	fs.readFile(__dirname + '/buildcount.txt', (err, data) => {
 	    if (err) return;
             fs.writeFile(__dirname + '/buildcount.txt', parseInt(data.toString()) + 1, 'utf8', err => {
@@ -60,6 +64,8 @@ io.on('connection', socket => {
 	});
 
         var buildname = sha256(data.name + '-' + moment().unix() + '-' + randomstring.generate());
+
+	current++;
 
         ncp(__dirname + '/../cheat', __dirname + '/cache/' + buildname, err => {
             if (err) return console.log('[build] %s (%s): error while copying source', data.name, buildname);
@@ -100,6 +106,7 @@ io.on('connection', socket => {
                                 socket.emit('build', {
                                     url: '/bin/' + dllname
                                 });
+				current--;
                                 setTimeout(() => {
                                     fs.unlinkSync(__dirname + '/bin/' + dllname);
                                 }, 15000);
