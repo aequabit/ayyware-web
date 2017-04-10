@@ -26,7 +26,7 @@ $(document).ready(() => {
     });
 
     $('.btn-build').click(() => {
-        if ($('.txt-cheat-name').val().length < 1) {
+        if ($('.txt-cheat-name').val().length < 1 || $('.txt-cheat-name').val().length > 32 || $('.txt-cheat-name').val().match(/^[\w\s-_]+$/i) === null) {
             $('.name-error').removeClass('hidden');
             $('.name-box').addClass('has-error');
             return;

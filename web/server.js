@@ -42,7 +42,7 @@ const io = require('socket.io').listen(server);
 io.on('connection', socket => {
     //console.log('[socket] client connected');
     socket.on('build', data => {
-        if (!data || !data.name || typeof data.name != 'string' || data.name.match(/^[a-z0-9]+$/i) === null ||
+        if (!data || !data.name || typeof data.name != 'string' || data.name.length < 1 || data.name.length > 32 || data.name.match(/^[\w\s-_]+$/i) === null ||
             !data.ct || !data.ct.visible || !data.ct.invisible || typeof data.ct.visible != 'object' || typeof data.ct.invisible != 'object' ||
             !data.t || !data.t.visible || !data.t.invisible || typeof data.t.visible != 'object' || typeof data.t.invisible != 'object' ||
             data.ct.visible.length != 3 || data.ct.invisible.length != 3 ||
