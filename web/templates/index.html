@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>pAyyware</title>
+
+  <link rel="stylesheet" href="https://bootswatch.com/solar/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/css/bootstrap.colorpickersliders.css">
+
+  <style>
+    * {
+      font-size: 16px;
+    }
+
+    body {
+      margin-top: 2%;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading">Compile</div>
+      <div class="panel-body">
+        <h2>Get Your Unique Private AYYWARE Build Today!</h2>
+        <p>AYYWARE is a superior internal meme which helps you destroy your enemies and go pro.<br> Best of all: it's completely free!<br> If you're still not convinced and want to spend some money on a good cheat, we highly recommend InterX-Cheats.
+        </p>
+
+        <hr>
+
+        <div class="name-box">
+          <input type="text" class="form-control txt-cheat-name" placeholder="Name of your superior cheat">
+          <span class="name-error text-danger hidden">Please enter a valid name: [a-z A-Z 0-9] min. 1 character</span>
+        </div>
+        <hr>
+
+        <div class="col-md-3">
+          <span class="cp-title">Team Visible</span>
+          <input type="text" class="form-control ct-visible" value="#0f0">
+        </div>
+        <div class="col-md-3">
+          <span class="cp-title">Team Invisible</span>
+          <input type="text" class="form-control ct-invisible" value="#00f">
+        </div>
+        <div class="col-md-3">
+          <span class="cp-title">Enemy Visible</span>
+          <input type="text" class="form-control t-visible" value="#f00">
+        </div>
+        <div class="col-md-3">
+          <span class="cp-title">Enemy Invisible</span>
+          <input type="text" class="form-control t-invisible" value="#ff0">
+        </div>
+
+        <br><br><br>
+        <hr>
+
+        <center>
+          <button type="button" class="btn btn-danger btn-lg btn-build">Build</button>
+        </center>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js"></script>
+  <script src="/static/js/bootstrap.colorpickersliders.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+
+</html>

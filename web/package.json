@@ -1,0 +1,29 @@
+{
+  "name": "ayyware-web",
+  "version": "1.0.0",
+  "description": "Get your superior cheat in seconds!",
+  "main": "server.js",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "express": "^4.15.2",
+    "fs-extra": "^2.1.2",
+    "ncp": "^2.0.0",
+    "moment": "^2.18.1",
+    "randomstring": "^1.1.5",
+    "sha256": "^0.2.0",
+    "socket.io": "^1.7.3",
+    "sprintf-js": "^1.0.3",
+    "util": "^0.10.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gtihub.com/aequabit/ayyware-web"
+  },
+  "author": "aequabit",
+  "license": "MIT"
+}
