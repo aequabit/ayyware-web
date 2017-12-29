@@ -39,7 +39,7 @@ $(document).ready(() => {
     });
 
     $('.btn-build').click(() => {
-        if ($('.txt-cheat-name').val().trim().length < 1 || $('.txt-cheat-name').val().trim()..length > 32 || $('.txt-cheat-name').val().trim().match(/^[\w\s-_]+$/i) === null) {
+        if ($('.txt-cheat-name').val().trim().length < 1 || $('.txt-cheat-name').val().trim().length > 32 || $('.txt-cheat-name').val().trim().match(/^[\w\s-_]+$/i) === null) {
             $('.name-error').removeClass('hidden');
             $('.name-box').addClass('has-error');
             return;
